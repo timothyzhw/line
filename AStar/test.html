@@ -1,0 +1,83 @@
+<html>
+    <head></head>
+        
+    <body>
+        <script>
+            var initstate =[
+                [1,0,0,1,0],
+                [1,0,0,1,0],
+                [0,0,1,1,0],
+                [1,0,0,0,0],
+                [1,0,1,1,0],
+                [0,0,0,1,0]
+                ];
+            var start = {x:0,y:2};
+            var end ={x:5,y:5};
+
+            var colums =5;
+            var rows = 5;
+
+            var objstate = [];
+            for(var i=0;i<initstate.length;i++)
+            {
+                var l = [];
+                for(var j=0;j<initstate[i].length;j++)
+                {
+                    var c ={x:j,y:i,v:initstate[i][j],G:0,H:0};
+                    l.push(c);
+                }
+                objstate.push(l);
+            }
+            function H(s,e){
+                
+                if(e.H)
+                    return e.H;
+                var v= Math.abs(e.y-s.y)+Math.abs(e.x-s.x); 
+                e.H = v*10;
+                return e.H;
+
+            }
+
+            function G(s,e)
+            {
+                var g = s.G + 10;
+                if(e.G)
+                {
+                    e.G>g && (e.G = g);
+                }
+                else{
+                    e.G = g;
+                }
+                return e.G;
+            }
+            function Run(s,e)
+            {
+                objstate[s.y][s.x].close = true;
+                var top = s.y == 0 ? null:objstate[s.y-1][s.x];
+                var bottom = s.y== rows -1 ? null:objstate[s.y+1][s.x];
+                var right = s.x= colums -1 ? null:objstate[s.y][s.x+1];
+                var left = s.x = 0 ? null:objstate[s.y][s.x-1];
+                
+                top && ( G(s,top),H(s.top));
+                bottom && ( G(s,bottom),H(s,bottom));
+                right && (G(s,right), H(s,right));
+                left && (G(s,left), H(s,left));
+                
+                var parent = Max(Max(top,right),Max(bottom,left));
+                if(parent)
+                    parent.close = true;
+
+            }
+
+            function Max(s,e)
+            {
+                if(s)
+                if(!e)
+                    return s;
+                if(s && (s.G+s.H) >(e.G + e.H))
+                    return s;
+                return e;
+            }
+        </script>
+    </body>
+</html>
