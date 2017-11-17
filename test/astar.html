@@ -309,6 +309,8 @@
                         mapElement(path[i]).addClass("path");
                         console.debug("path: " + i + " x:" + path[i].x + " y:" + path[i].y);
                     }
+                    console.debug("path: " + 100 + " x:" + square.x + " y:" + square.y);
+                   
                     that.addClass("ball" + square.color);
                     var clean = cleanLine(square);
                     if (!clean) {
@@ -623,7 +625,8 @@
 
             .board li.path {
                 background-color: transparent;
-                animation: ballpath 2s;
+                animation: ballpath 10
+                s;
             }
 
         @keyframes ballpath {
